@@ -2,9 +2,13 @@ const circle = document.createElement("img");
 const cross = document.createElement("img");
 circle.src = "./assets/circle.png";
 cross.src = "./assets/cross.png";
+const playerOneInput = document.getElementById("playerOne");
+const playerTwoInput = document.getElementById("playerTwo");
+const heading = document.querySelector("h1")
+const startBtn = document.getElementById("start")
 
 
-// Create Cells
+//Cells
 
 const cellOne = document.getElementById("cellOne");
 const cellTwo = document.getElementById("cellTwo");
@@ -18,18 +22,16 @@ const cellNine = document.getElementById("cellNine");
 
 const cells = [cellOne, cellTwo, cellThree, cellFour, cellFive, cellSix, cellSeven, cellEight, cellNine]
 
+let myGame;
 
+function game(playerOne, playerTwo) {
 
-function game() {
     const rows = 3;
     const columns = 3;
     const board = [];
     let key = "X"
     let turns = 0
-
-
     
-
     const getKey = function () {
         return key
     }
@@ -42,17 +44,23 @@ function game() {
     }
 
     const togglekey = () => {
-        key =="X" ? key = "O" : key = "X";
-        
+        if (key == "X"){
+            DisplayController.updateheading(`${playerTwo}'s Turn`)
+            key = "O"
+        }
+        else {
+            DisplayController.updateheading(`${playerOne}'s Turn`)
+            key = "X"
+        }
     }
 
     const winGame =  function () {
-        key == "X" ? console.log("Player 1 has won the game!") : console.log("Player 2 has one the game");
+        key == "X" ? DisplayController.updateheading(`${playerOne} has won the game!`) : DisplayController.updateheading(`${playerTwo} has one the game!`)
         DisplayController.endGame();
     }
 
     const tieGame = function () {
-        console.log("TIE GAME")
+        DisplayController.updateheading("Tie Game!")
         DisplayController.endGame();
     }
 
@@ -105,13 +113,10 @@ function game() {
         const userRow= row
         const userColumn = column
         if(board[userRow][userColumn] != "*"){
-            alert("USED")
             return false;
         }
         else {
             board[userRow][userColumn] = key;
-            console.log(board)
-            console.log(key)
             DisplayController.updateScreen(userRow,userColumn)
             turns++;
         }
@@ -122,9 +127,7 @@ function game() {
         else if (turns >= 9){
             return tieGame()
         }
-        key =="X" ? console.log("Player 2 turn") : console.log("Player 1 turn");
         togglekey();
-        console.log(board)
         return true
         
     
@@ -138,8 +141,6 @@ function game() {
     
     
 }
-
-const myGame = game();
 
 const DisplayController = {
     updateCell(cell){
@@ -184,13 +185,13 @@ const DisplayController = {
         if (row == 0) {
             switch (col) {
                 case 0:
-                    myGame.getKey() == "X" ? cellOne.appendChild(cross.cloneNode(false)) : cellOne.appendChild(circle.cloneNode(false))
+                    myGame.getKey() == "X" ? cellOne.appendChild(cross.cloneNode(true)) : cellOne.appendChild(circle.cloneNode(true))
                     break;
                 case 1:
-                    myGame.getKey() == "X" ? cellTwo.appendChild(cross.cloneNode(false)) : cellTwo.appendChild(circle.cloneNode(false))
+                    myGame.getKey() == "X" ? cellTwo.appendChild(cross.cloneNode(true)) : cellTwo.appendChild(circle.cloneNode(true))
                     break
                 case 2:
-                    myGame.getKey() == "X" ? cellThree.appendChild(cross.cloneNode(false)) : cellThree.appendChild(circle.cloneNode(false))
+                    myGame.getKey() == "X" ? cellThree.appendChild(cross.cloneNode(true)) : cellThree.appendChild(circle.cloneNode(true))
                     break;
             }
 
@@ -198,13 +199,13 @@ const DisplayController = {
         else if (row == 1){
             switch (col) {
                 case 0:
-                    myGame.getKey() == "X" ? cellFour.appendChild(cross.cloneNode(false)) : cellFour.appendChild(circle.cloneNode(false))
+                    myGame.getKey() == "X" ? cellFour.appendChild(cross.cloneNode(true)) : cellFour.appendChild(circle.cloneNode(true))
                     break;
                 case 1:
-                    myGame.getKey() == "X" ? cellFive.appendChild(cross.cloneNode(false)) : cellFive.appendChild(circle.cloneNode(false))
+                    myGame.getKey() == "X" ? cellFive.appendChild(cross.cloneNode(true)) : cellFive.appendChild(circle.cloneNode(true))
                     break;
                 case 2:
-                    myGame.getKey() == "X" ? cellSix.appendChild(cross.cloneNode(false)) : cellSix.appendChild(circle.cloneNode(false))
+                    myGame.getKey() == "X" ? cellSix.appendChild(cross.cloneNode(true)) : cellSix.appendChild(circle.cloneNode(true))
                     break;  
             }
 
@@ -212,27 +213,52 @@ const DisplayController = {
         else {
             switch (col) {
                 case 0:
-                    myGame.getKey() == "X" ? cellSeven.appendChild(cross.cloneNode(false)) : cellSeven.appendChild(circle.cloneNode(false))
+                    myGame.getKey() == "X" ? cellSeven.appendChild(cross.cloneNode(true)) : cellSeven.appendChild(circle.cloneNode(true))
                     break;
                 case 1:
-                    myGame.getKey() == "X" ? cellEight.appendChild(cross.cloneNode(false)) : cellEight.appendChild(circle.cloneNode(false))
+                    myGame.getKey() == "X" ? cellEight.appendChild(cross.cloneNode(true)) : cellEight.appendChild(circle.cloneNode(true))
                     break;
                 case 2:
-                    myGame.getKey() == "X" ? cellNine.appendChild(cross.cloneNode(false)) : cellNine.appendChild(circle.cloneNode(false))
+                    myGame.getKey() == "X" ? cellNine.appendChild(cross.cloneNode(true)) : cellNine.appendChild(circle.cloneNode(true))
                     break;    
             }
 
         }
+    },
+    updateheading(msg) {
+        heading.textContent = msg
     }
 }
 
 
-for (const cell of cells) {
-    cell.addEventListener("click", handleClick)
+
+
+function handleClick(e) {
+    DisplayController.updateCell(e.currentTarget)
 }
 
-function handleClick() {
-    DisplayController.updateCell(event.currentTarget)
+
+function startGame() {
+    const p1 = (playerOneInput.value || "Player 1").trim();
+    const p2 = (playerTwoInput.value || "Player 2").trim();
+    DisplayController.updateheading(`${p1}'s turn`)
+
+    cells.forEach(c => c.innerHTML = "");
+    DisplayController.endGame();
+
+    myGame = game(p1,p2)
+    
+    for (const cell of cells) {
+        cell.addEventListener("click", handleClick)
+    }
+    
+
 }
+
+startBtn.addEventListener("click", () => {
+    startGame();
+})
+
+
 
 

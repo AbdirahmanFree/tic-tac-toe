@@ -48,3 +48,18 @@
     border-bottom: none;
 }
 
+
+input,button {
+    width: 150px;
+    height: 20px
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 600px;
+}
+
+button {
+    height: 30px;
+}
