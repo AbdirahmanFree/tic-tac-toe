@@ -1,7 +1,23 @@
 
 
 
+const circle = document.createElement("img");
+const cross = document.createElement("img");
+circle.src = "./assets/circle.png";
+cross.src = "./assets/cross.png";
 
+// Create Cells
+for (let i = 0; i< 9; i++) {
+
+}
+
+
+
+const DisplayController = {
+    updateCell(){
+
+    },
+}
 
 
 function game() {
@@ -10,9 +26,6 @@ function game() {
     const board = [];
     let key = "X"
     
-
-    
-
     for (let i = 0; i< rows; i++){
         board[i] = []
         for (let j = 0; j < columns; j++){
@@ -92,7 +105,7 @@ function game() {
     }
 
     const playGame = function ( count = 0) {
-        if (count >= 9) {
+        if (count >= 8) {
             tieGame()
         }
         userChoice()
@@ -113,7 +126,7 @@ function game() {
 }
 
 const myGame = game();
-myGame.playGame()
+
 
 
 
